@@ -1,6 +1,6 @@
-module "aci_syslog" {
-  source  = "netascode/syslog/aci"
-  version = ">= 0.0.1"
+module "aci_syslog_policy" {
+  source  = "netascode/syslog-policy/aci"
+  version = ">= 0.0.2"
 
   name                = "SYSLOG1"
   description         = "My Description"
@@ -18,7 +18,7 @@ module "aci_syslog" {
     format        = "nxos"
     facility      = "local1"
     severity      = "information"
-    mgmt_epg      = "oob"
+    mgmt_epg_type = "oob"
     mgmt_epg_name = "OOB1"
   }]
 }

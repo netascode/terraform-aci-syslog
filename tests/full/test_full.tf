@@ -30,7 +30,7 @@ module "main" {
     format        = "nxos"
     facility      = "local1"
     severity      = "information"
-    mgmt_epg      = "oob"
+    mgmt_epg_type = "oob"
     mgmt_epg_name = "OOB1"
   }]
 }

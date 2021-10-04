@@ -24,11 +24,11 @@ resource "aci_rest" "syslogRemoteDest" {
 }
 
 resource "aci_rest" "fileRsARemoteHostToEpg" {
-  for_each   = { for dest in var.destinations : dest.hostname_ip => dest if dest.mgmt_epg != null && dest.mgmt_epg_name != null }
+  for_each   = { for dest in var.destinations : dest.hostname_ip => dest if dest.mgmt_epg_name != null }
   dn         = "${aci_rest.syslogRemoteDest[each.value.hostname_ip].id}/rsARemoteHostToEpg"
   class_name = "fileRsARemoteHostToEpg"
   content = {
-    tDn = each.value.mgmt_epg == "oob" ? "uni/tn-mgmt/mgmtp-default/oob-${each.value.mgmt_epg_name}" : "uni/tn-mgmt/mgmtp-default/inb-${each.value.mgmt_epg_name}"
+    tDn = each.value.mgmt_epg_type == "oob" ? "uni/tn-mgmt/mgmtp-default/oob-${each.value.mgmt_epg_name}" : "uni/tn-mgmt/mgmtp-default/inb-${each.value.mgmt_epg_name}"
   }
 }
 

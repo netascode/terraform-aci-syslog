@@ -1,9 +1,9 @@
 <!-- BEGIN_TF_DOCS -->
-[![Tests](https://github.com/netascode/terraform-aci-syslog/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-syslog/actions/workflows/test.yml)
+[![Tests](https://github.com/netascode/terraform-aci-syslog-policy/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-syslog-policy/actions/workflows/test.yml)
 
-# Terraform ACI Syslog Module
+# Terraform ACI Syslog Policy Module
 
-Manages ACI Syslog
+Manages ACI Syslog Policy
 
 Location in GUI:
 `Admin` » `External Data Collectors` » `Monitoring Destinations` » `Syslog`
@@ -11,9 +11,9 @@ Location in GUI:
 ## Examples
 
 ```hcl
-module "aci_syslog" {
-  source  = "netascode/syslog/aci"
-  version = ">= 0.0.1"
+module "aci_syslog_policy" {
+  source  = "netascode/syslog-policy/aci"
+  version = ">= 0.0.2"
 
   name                = "SYSLOG1"
   description         = "My Description"
@@ -31,7 +31,7 @@ module "aci_syslog" {
     format        = "nxos"
     facility      = "local1"
     severity      = "information"
-    mgmt_epg      = "oob"
+    mgmt_epg_type = "oob"
     mgmt_epg_name = "OOB1"
   }]
 }
@@ -64,7 +64,7 @@ module "aci_syslog" {
 | <a name="input_local_severity"></a> [local\_severity](#input\_local\_severity) | Local severity. Choices: `emergencies`, `alerts`, `critical`, `errors`, `warnings`, `notifications`, `information`, `debugging`. | `string` | `"information"` | no |
 | <a name="input_console_admin_state"></a> [console\_admin\_state](#input\_console\_admin\_state) | Console admin state. | `bool` | `true` | no |
 | <a name="input_console_severity"></a> [console\_severity](#input\_console\_severity) | Console severity. Choices: `emergencies`, `alerts`, `critical`, `errors`, `warnings`, `notifications`, `information`, `debugging`. | `string` | `"alerts"` | no |
-| <a name="input_destinations"></a> [destinations](#input\_destinations) | List of destinations. Allowed values `port`: 0-65535. Default value `port`: 514. Choices `format`: `aci`, `nxos`. Default value `format`: `aci`. Choices `facility`: `local0`, `local1` ,`local2` ,`local3` ,`local4` ,`local5`, `local6`, `local7`. Default value `facility`: `local7`. Choices `severity`: `emergencies`, `alerts`, `critical`, `errors`, `warnings`, `notifications`, `information`, `debugging`. Default value `severity`: `warnings`. | <pre>list(object({<br>    hostname_ip   = string<br>    port          = optional(number)<br>    admin_state   = optional(bool)<br>    format        = optional(string)<br>    facility      = optional(string)<br>    severity      = optional(string)<br>    mgmt_epg      = optional(string)<br>    mgmt_epg_name = optional(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_destinations"></a> [destinations](#input\_destinations) | List of destinations. Allowed values `port`: 0-65535. Default value `port`: 514. Choices `format`: `aci`, `nxos`. Default value `format`: `aci`. Choices `facility`: `local0`, `local1` ,`local2` ,`local3` ,`local4` ,`local5`, `local6`, `local7`. Default value `facility`: `local7`. Choices `severity`: `emergencies`, `alerts`, `critical`, `errors`, `warnings`, `notifications`, `information`, `debugging`. Default value `severity`: `warnings`. Choices `mgmt_epg_type`: `inb`, `oob`. Default value `mgmt_epg_type`: `inb`. | <pre>list(object({<br>    hostname_ip   = string<br>    port          = optional(number)<br>    admin_state   = optional(bool)<br>    format        = optional(string)<br>    facility      = optional(string)<br>    severity      = optional(string)<br>    mgmt_epg_type = optional(string)<br>    mgmt_epg_name = optional(string)<br>  }))</pre> | `[]` | no |
 
 ## Outputs
 
