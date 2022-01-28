@@ -5,8 +5,8 @@ terraform {
     }
 
     aci = {
-      source  = "netascode/aci"
-      version = ">=0.2.0"
+      source  = "CiscoDevNet/aci"
+      version = ">=2.0.0"
     }
   }
 }
@@ -35,7 +35,7 @@ module "main" {
   }]
 }
 
-data "aci_rest" "syslogGroup" {
+data "aci_rest_managed" "syslogGroup" {
   dn = "uni/fabric/slgroup-${module.main.name}"
 
   depends_on = [module.main]
@@ -46,31 +46,31 @@ resource "test_assertions" "syslogGroup" {
 
   equal "name" {
     description = "name"
-    got         = data.aci_rest.syslogGroup.content.name
+    got         = data.aci_rest_managed.syslogGroup.content.name
     want        = module.main.name
   }
 
   equal "descr" {
     description = "descr"
-    got         = data.aci_rest.syslogGroup.content.descr
+    got         = data.aci_rest_managed.syslogGroup.content.descr
     want        = "My Description"
   }
 
   equal "format" {
     description = "format"
-    got         = data.aci_rest.syslogGroup.content.format
+    got         = data.aci_rest_managed.syslogGroup.content.format
     want        = "nxos"
   }
 
   equal "includeMilliSeconds" {
     description = "includeMilliSeconds"
-    got         = data.aci_rest.syslogGroup.content.includeMilliSeconds
+    got         = data.aci_rest_managed.syslogGroup.content.includeMilliSeconds
     want        = "yes"
   }
 }
 
-data "aci_rest" "syslogRemoteDest" {
-  dn = "${data.aci_rest.syslogGroup.id}/rdst-1.1.1.1"
+data "aci_rest_managed" "syslogRemoteDest" {
+  dn = "${data.aci_rest_managed.syslogGroup.id}/rdst-1.1.1.1"
 
   depends_on = [module.main]
 }
@@ -80,43 +80,43 @@ resource "test_assertions" "syslogRemoteDest" {
 
   equal "host" {
     description = "host"
-    got         = data.aci_rest.syslogRemoteDest.content.host
+    got         = data.aci_rest_managed.syslogRemoteDest.content.host
     want        = "1.1.1.1"
   }
 
   equal "port" {
     description = "port"
-    got         = data.aci_rest.syslogRemoteDest.content.port
+    got         = data.aci_rest_managed.syslogRemoteDest.content.port
     want        = "1514"
   }
 
   equal "adminState" {
     description = "adminState"
-    got         = data.aci_rest.syslogRemoteDest.content.adminState
+    got         = data.aci_rest_managed.syslogRemoteDest.content.adminState
     want        = "disabled"
   }
 
   equal "format" {
     description = "format"
-    got         = data.aci_rest.syslogRemoteDest.content.format
+    got         = data.aci_rest_managed.syslogRemoteDest.content.format
     want        = "nxos"
   }
 
   equal "forwardingFacility" {
     description = "forwardingFacility"
-    got         = data.aci_rest.syslogRemoteDest.content.forwardingFacility
+    got         = data.aci_rest_managed.syslogRemoteDest.content.forwardingFacility
     want        = "local1"
   }
 
   equal "severity" {
     description = "severity"
-    got         = data.aci_rest.syslogRemoteDest.content.severity
+    got         = data.aci_rest_managed.syslogRemoteDest.content.severity
     want        = "information"
   }
 }
 
-data "aci_rest" "fileRsARemoteHostToEpg" {
-  dn = "${data.aci_rest.syslogRemoteDest.id}/rsARemoteHostToEpg"
+data "aci_rest_managed" "fileRsARemoteHostToEpg" {
+  dn = "${data.aci_rest_managed.syslogRemoteDest.id}/rsARemoteHostToEpg"
 
   depends_on = [module.main]
 }
@@ -126,13 +126,13 @@ resource "test_assertions" "fileRsARemoteHostToEpg" {
 
   equal "tDn" {
     description = "tDn"
-    got         = data.aci_rest.fileRsARemoteHostToEpg.content.tDn
+    got         = data.aci_rest_managed.fileRsARemoteHostToEpg.content.tDn
     want        = "uni/tn-mgmt/mgmtp-default/oob-OOB1"
   }
 }
 
-data "aci_rest" "syslogProf" {
-  dn = "${data.aci_rest.syslogGroup.id}/prof"
+data "aci_rest_managed" "syslogProf" {
+  dn = "${data.aci_rest_managed.syslogGroup.id}/prof"
 
   depends_on = [module.main]
 }
@@ -142,13 +142,13 @@ resource "test_assertions" "syslogProf" {
 
   equal "adminState" {
     description = "adminState"
-    got         = data.aci_rest.syslogProf.content.adminState
+    got         = data.aci_rest_managed.syslogProf.content.adminState
     want        = "enabled"
   }
 }
 
-data "aci_rest" "syslogFile" {
-  dn = "${data.aci_rest.syslogGroup.id}/file"
+data "aci_rest_managed" "syslogFile" {
+  dn = "${data.aci_rest_managed.syslogGroup.id}/file"
 
   depends_on = [module.main]
 }
@@ -158,25 +158,25 @@ resource "test_assertions" "syslogFile" {
 
   equal "adminState" {
     description = "adminState"
-    got         = data.aci_rest.syslogFile.content.adminState
+    got         = data.aci_rest_managed.syslogFile.content.adminState
     want        = "disabled"
   }
 
   equal "format" {
     description = "format"
-    got         = data.aci_rest.syslogFile.content.format
+    got         = data.aci_rest_managed.syslogFile.content.format
     want        = "nxos"
   }
 
   equal "severity" {
     description = "severity"
-    got         = data.aci_rest.syslogFile.content.severity
+    got         = data.aci_rest_managed.syslogFile.content.severity
     want        = "errors"
   }
 }
 
-data "aci_rest" "syslogConsole" {
-  dn = "${data.aci_rest.syslogGroup.id}/console"
+data "aci_rest_managed" "syslogConsole" {
+  dn = "${data.aci_rest_managed.syslogGroup.id}/console"
 
   depends_on = [module.main]
 }
@@ -186,19 +186,19 @@ resource "test_assertions" "syslogConsole" {
 
   equal "adminState" {
     description = "adminState"
-    got         = data.aci_rest.syslogConsole.content.adminState
+    got         = data.aci_rest_managed.syslogConsole.content.adminState
     want        = "disabled"
   }
 
   equal "format" {
     description = "format"
-    got         = data.aci_rest.syslogConsole.content.format
+    got         = data.aci_rest_managed.syslogConsole.content.format
     want        = "nxos"
   }
 
   equal "severity" {
     description = "severity"
-    got         = data.aci_rest.syslogConsole.content.severity
+    got         = data.aci_rest_managed.syslogConsole.content.severity
     want        = "critical"
   }
 }
