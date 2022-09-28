@@ -15,11 +15,11 @@ resource "aci_rest_managed" "syslogRemoteDest" {
   class_name = "syslogRemoteDest"
   content = {
     host               = each.value.hostname_ip
-    port               = each.value.port != null ? each.value.port : 514
-    adminState         = each.value.admin_state == false ? "disabled" : "enabled"
-    format             = each.value.format != null ? each.value.format : "aci"
-    forwardingFacility = each.value.facility != null ? each.value.facility : "local7"
-    severity           = each.value.severity != null ? each.value.severity : "warnings"
+    port               = each.value.port
+    adminState         = each.value.admin_state == true ? "enabled" : "disabled"
+    format             = each.value.format
+    forwardingFacility = each.value.facility
+    severity           = each.value.severity
   }
 }
 

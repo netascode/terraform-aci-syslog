@@ -80,12 +80,12 @@ variable "destinations" {
   description = "List of destinations. Allowed values `port`: 0-65535. Default value `port`: 514. Choices `format`: `aci`, `nxos`. Default value `format`: `aci`. Choices `facility`: `local0`, `local1` ,`local2` ,`local3` ,`local4` ,`local5`, `local6`, `local7`. Default value `facility`: `local7`. Choices `severity`: `emergencies`, `alerts`, `critical`, `errors`, `warnings`, `notifications`, `information`, `debugging`. Default value `severity`: `warnings`. Choices `mgmt_epg_type`: `inb`, `oob`. Default value `mgmt_epg_type`: `inb`."
   type = list(object({
     hostname_ip   = string
-    port          = optional(number)
-    admin_state   = optional(bool)
-    format        = optional(string)
-    facility      = optional(string)
-    severity      = optional(string)
-    mgmt_epg_type = optional(string)
+    port          = optional(number, 514)
+    admin_state   = optional(bool, true)
+    format        = optional(string, "aci")
+    facility      = optional(string, "local7")
+    severity      = optional(string, "warnings")
+    mgmt_epg_type = optional(string, "inb")
     mgmt_epg_name = optional(string)
   }))
   default = []
