@@ -26,6 +26,7 @@ module "main" {
   console_admin_state = false
   console_severity    = "critical"
   destinations = [{
+    name          = "DEST1"
     hostname_ip   = "1.1.1.1"
     port          = 1514
     admin_state   = false
@@ -79,6 +80,12 @@ data "aci_rest_managed" "syslogRemoteDest" {
 
 resource "test_assertions" "syslogRemoteDest" {
   component = "syslogRemoteDest"
+
+  equal "name" {
+    description = "name"
+    got         = data.aci_rest_managed.syslogRemoteDest.content.name
+    want        = "DEST1"
+  }
 
   equal "host" {
     description = "host"

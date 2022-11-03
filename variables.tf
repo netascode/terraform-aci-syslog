@@ -77,9 +77,11 @@ variable "console_severity" {
 }
 
 variable "destinations" {
-  description = "List of destinations. Allowed values `port`: 0-65535. Default value `port`: 514. Choices `format`: `aci`, `nxos`. Default value `format`: `aci`. Choices `facility`: `local0`, `local1` ,`local2` ,`local3` ,`local4` ,`local5`, `local6`, `local7`. Default value `facility`: `local7`. Choices `severity`: `emergencies`, `alerts`, `critical`, `errors`, `warnings`, `notifications`, `information`, `debugging`. Default value `severity`: `warnings`. Choices `mgmt_epg_type`: `inb`, `oob`. Default value `mgmt_epg_type`: `inb`."
+  description = "List of destinations. Allowed values `protocol`: `udp`, `tcp`, `ssl`. Allowed values `port`: 0-65535. Default value `port`: 514. Choices `format`: `aci`, `nxos`. Default value `format`: `aci`. Choices `facility`: `local0`, `local1` ,`local2` ,`local3` ,`local4` ,`local5`, `local6`, `local7`. Default value `facility`: `local7`. Choices `severity`: `emergencies`, `alerts`, `critical`, `errors`, `warnings`, `notifications`, `information`, `debugging`. Default value `severity`: `warnings`. Choices `mgmt_epg_type`: `inb`, `oob`. Default value `mgmt_epg_type`: `inb`."
   type = list(object({
+    name          = optional(string, "")
     hostname_ip   = string
+    protocol      = optional(string)
     port          = optional(number, 514)
     admin_state   = optional(bool, true)
     format        = optional(string, "aci")
@@ -92,9 +94,23 @@ variable "destinations" {
 
   validation {
     condition = alltrue([
+      for d in var.destinations : can(regex("^[a-zA-Z0-9_.-]{0,64}$", d.name))
+    ])
+    error_message = "Allowed characters `name`: `a`-`z`, `A`-`Z`, `0`-`9`, `_`, `.`, `-`. Maximum characters: 64."
+  }
+
+  validation {
+    condition = alltrue([
       for d in var.destinations : can(regex("^[a-zA-Z0-9:][a-zA-Z0-9.:-]{0,254}$", d.hostname_ip))
     ])
     error_message = "Allowed characters `hostname_ip`: `a`-`z`, `A`-`Z`, `0`-`9`, `.`, `:`, `-`. Maximum characters: 254."
+  }
+
+  validation {
+    condition = alltrue([
+      for d in var.destinations : d.protocol == null || try(contains(["udp", "tcp", "ssl"], d.protocol), false)
+    ])
+    error_message = "`protocol`: Allowed values are `udp`, `tcp` or `ssl`."
   }
 
   validation {

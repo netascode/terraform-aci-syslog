@@ -14,7 +14,7 @@ Note that this example will create resources. Resources can be destroyed with `t
 ```hcl
 module "aci_syslog_policy" {
   source  = "netascode/syslog-policy/aci"
-  version = ">= 0.2.0"
+  version = ">= 0.2.1"
 
   name                = "SYSLOG1"
   description         = "My Description"
@@ -26,7 +26,9 @@ module "aci_syslog_policy" {
   console_admin_state = false
   console_severity    = "critical"
   destinations = [{
+    name          = "DEST1"
     hostname_ip   = "1.1.1.1"
+    protocol      = "tcp"
     port          = 1514
     admin_state   = false
     format        = "nxos"

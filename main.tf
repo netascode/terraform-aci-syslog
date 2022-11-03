@@ -14,7 +14,9 @@ resource "aci_rest_managed" "syslogRemoteDest" {
   dn         = "${aci_rest_managed.syslogGroup.dn}/rdst-${each.value.hostname_ip}"
   class_name = "syslogRemoteDest"
   content = {
+    name               = each.value.name
     host               = each.value.hostname_ip
+    protocol           = each.value.protocol
     port               = each.value.port
     adminState         = each.value.admin_state == true ? "enabled" : "disabled"
     format             = each.value.format

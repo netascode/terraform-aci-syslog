@@ -1,3 +1,8 @@
+## 0.2.1 (unreleased)
+
+- Add `name` attribute to destination
+- Add `protocol` attribute to destination
+
 ## 0.2.0
 
 - Update to support new Terraform 1.3 `optional` syntax
