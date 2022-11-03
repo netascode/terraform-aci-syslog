@@ -1,4 +1,4 @@
-## 0.2.1 (unreleased)
+## 0.2.1
 
 - Add `name` attribute to destination
 - Add `protocol` attribute to destination
