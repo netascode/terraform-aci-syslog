@@ -1,6 +1,8 @@
 <!-- BEGIN_TF_DOCS -->
 [![Tests](https://github.com/netascode/terraform-aci-syslog-policy/actions/workflows/test.yml/badge.svg)](https://github.com/netascode/terraform-aci-syslog-policy/actions/workflows/test.yml)
 
+*This module is no longer maintained as it has been integrated into the [nac-aci](https://github.com/netascode/terraform-aci-nac-aci) module.*
+
 # Terraform ACI Syslog Policy Module
 
 Manages ACI Syslog Policy
